@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
+import { ItemsModule } from './items/items.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,9 +18,11 @@ import { ConfigModule } from '@nestjs/config';
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
-    })
+    }),
+
+    ItemsModule
   ],
-  controllers: [AppController],
+  controllers: [AppController, ],
   providers: [AppService],
 })
 export class AppModule { }
