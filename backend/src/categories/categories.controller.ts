@@ -1,6 +1,9 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
+import { Body, Post, UseGuards } from '@nestjs/common';
+import { CreateCategoryDto } from '../dtos/categories.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('categories')
 export class CategoriesController {
@@ -16,5 +19,12 @@ export class CategoriesController {
   @Get(':id')
   async getCategory(@Param('id') id: string) {
     return this.categoriesService.findOne(+id);
+  }
+
+  @ApiOperation({ summary: 'Create a new Category' })
+  @UseGuards(AuthGuard('jwt'))
+  @Post()
+  async createCategory(@Body() body: CreateCategoryDto) {
+    return this .categoriesService.createCategory(body);
   }
 }
