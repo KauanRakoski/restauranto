@@ -7,6 +7,15 @@ import { apiReference } from '@scalar/nestjs-api-reference';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const corsOrigins = process.env.CORS_ORIGINS 
+    ? process.env.CORS_ORIGINS.split(',') 
+    : ['http://localhost:5173'];
+
+  app.enableCors({
+    origin: corsOrigins,
+    credentials: true,
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Restauranto')
     .setVersion('1.0')
@@ -22,6 +31,6 @@ async function bootstrap() {
   );
 
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }
 bootstrap();

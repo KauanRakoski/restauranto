@@ -25,7 +25,7 @@ export class CreateItemDto {
   @IsPositive()
   categoryId!: number;
 
-  @ApiPropertyOptional({ type: 'string', format: 'binary' })
+  @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   photo?: any;
 }

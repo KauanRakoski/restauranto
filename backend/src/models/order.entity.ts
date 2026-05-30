@@ -13,7 +13,7 @@ export class Order {
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
   totalAmount!: number;
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.orders)
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.orders, { onDelete: 'CASCADE' })
   restaurant!: Restaurant;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })

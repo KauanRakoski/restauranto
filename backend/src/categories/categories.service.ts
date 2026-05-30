@@ -19,10 +19,9 @@ export class CategoriesService {
     return this.categoryRepository.findOne({ where: { id } });
   }
 
-  async createCategory(createCategoryDto: CreateCategoryDto) {
-    const { restaurantId, ...categoryData } = createCategoryDto;
+  async createCategory(createCategoryDto: CreateCategoryDto, restaurantId: string) {
     const newCategory = this.categoryRepository.create({
-      ...categoryData,
+      ...createCategoryDto,
       restaurant: { id: restaurantId },
     });
     return this.categoryRepository.save(newCategory);

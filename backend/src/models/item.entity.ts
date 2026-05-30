@@ -18,6 +18,6 @@ export class Item {
   @Column({ nullable: true })
   photoUrl!: string;
 
-  @ManyToOne(() => Category, (category) => category.items)
+  @ManyToOne(() => Category, (category) => category.items, { onDelete: 'CASCADE' })
   category!: Category;
 }

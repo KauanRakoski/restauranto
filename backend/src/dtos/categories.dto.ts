@@ -6,9 +6,4 @@ export class CreateCategoryDto {
     @IsString()
     @IsNotEmpty()
     name!: string;
-
-    @ApiProperty({ example: 'uuid' })
-    @IsUUID()
-    @IsNotEmpty()
-    restaurantId!: string;
 }

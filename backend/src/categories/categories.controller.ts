@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
-import { Body, Post, UseGuards } from '@nestjs/common';
+import { Body, Post, UseGuards, Req, ForbiddenException } from '@nestjs/common';
 import { CreateCategoryDto } from '../dtos/categories.dto';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -24,7 +24,11 @@ export class CategoriesController {
   @ApiOperation({ summary: 'Create a new Category' })
   @UseGuards(AuthGuard('jwt'))
   @Post()
-  async createCategory(@Body() body: CreateCategoryDto) {
-    return this .categoriesService.createCategory(body);
+  async createCategory(@Body() body: CreateCategoryDto, @Req() req: any) {
+    console.log(body)
+    if (!req.user.restaurantId) {
+      throw new ForbiddenException('Usuário não possui restaurante vinculado.');
+    }
+    return this.categoriesService.createCategory(body, req.user.restaurantId);
   }
 }

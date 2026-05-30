@@ -1,0 +1,305 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+
+
+/* Main Content */
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+}
+
+.topHeader {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(28, 28, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topHeader h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.headerIcons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.headerIcon {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.content {
+  flex: 1;
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.emptyState {
+  padding: 64px 24px;
+  text-align: center;
+  color: #8e8e93;
+  font-size: 1.1rem;
+  background-color: rgba(28, 28, 30, 0.4);
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.1);
+}
+
+/* iOS Segmented Control */
+.segmentedControl {
+  display: flex;
+  background-color: rgba(28, 28, 30, 0.8);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 32px;
+}
+
+.segmentBtn {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #8e8e93;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.activeSegment {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Categories & Items */
+.categoryGroup {
+  margin-bottom: 24px;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.categoryHeader h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chevronIcon {
+  width: 16px;
+  height: 16px;
+  color: #8e8e93;
+}
+
+.itemCard {
+  display: flex;
+  align-items: center;
+  background-color: rgba(28, 28, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  gap: 16px;
+}
+
+.itemImagePlaceholder {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  background-color: #333;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.cocaColaImg { background-image: url('https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=200&auto=format&fit=crop'); }
+.sodaImg { background-image: url('https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=200&auto=format&fit=crop'); }
+.croissantImg { background-image: url('https://images.unsplash.com/photo-1549996647-190b679b33d7?q=80&w=200&auto=format&fit=crop'); }
+
+.itemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itemName {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.itemPrice {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
+  color: #8e8e93;
+  cursor: pointer;
+}
+
+/* iOS Toggle Switch */
+.toggle {
+  width: 50px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggleActive {
+  background-color: #6366f1; /* Purple/Blue */
+}
+
+.toggleKnob {
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggleActive .toggleKnob {
+  transform: translateX(20px);
+}
+
+/* Publish Section */
+.publishSection {
+  background-color: rgba(28, 28, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.publishHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cloudIcon {
+  width: 28px;
+  height: 28px;
+  color: #fff;
+}
+
+.publishHeader h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.publishText {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.publishLinkBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.publishLinkText {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.publishLinkText a {
+  color: #6366f1;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.copyBtn {
+  background-color: #6366f1;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.copyIcon {
+  width: 18px;
+  height: 18px;
+  color: #fff;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .dashboardContainer {
+    flex-direction: column;
+    background-color: #000;
+  }
+
+  .mainContent {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  .topHeader {
+    background: rgba(28, 28, 30, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+
+  .mainContent { margin-bottom: 110px; }
+  
+  .content {
+    padding: 16px;
+  }
+}
