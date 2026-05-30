@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
 import { Order } from './order.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Restaurant {
@@ -19,11 +20,14 @@ export class Restaurant {
   @Column({ nullable: true })
   phone!: string;
 
-  @OneToMany(() => Category, (category) => category.restaurant)
+  @OneToMany(() => Category, (category) => category.restaurant, { cascade: true })
   categories!: Category[];
 
-  @OneToMany(() => Order, (order) => order.restaurant)
+  @OneToMany(() => Order, (order) => order.restaurant, { cascade: true })
   orders!: Order[];
+
+  @OneToMany(() => User, (user) => user.restaurant)
+  users!: User[];
 
   @CreateDateColumn()
   createdAt!: Date;

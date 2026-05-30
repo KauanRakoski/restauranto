@@ -10,7 +10,7 @@ export class Category {
   @Column()
   name!: string;
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.categories)
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.categories, { onDelete: 'CASCADE' })
   restaurant!: Restaurant;
 
   @OneToMany(() => Item, (item) => item.category)

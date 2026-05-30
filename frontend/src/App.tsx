@@ -28,6 +28,7 @@ function App() {
             </ProtectedRoute>
           } 
         />
+
         {/* Redirect unknown routes to landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

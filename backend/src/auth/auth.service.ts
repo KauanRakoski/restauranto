@@ -38,7 +38,10 @@ export class AuthService {
   async login (credentials: AuthCredentialsDto){
     let {email, password} = credentials;
 
-    const user = await this.userRepository.findOne({where: {email}})
+    const user = await this.userRepository.findOne({
+      where: {email},
+      relations: { restaurant: true }
+    });
 
     if (!user){
         throw new NotFoundException('Usuário com este email não existe. Realize o cadastro.');
@@ -53,7 +56,8 @@ export class AuthService {
     const payload = {
         id: user.id,
         email: user.email,
-        role: user.role
+        role: user.role,
+        restaurantId: user.restaurant?.id
     }
 
     const accessToken = await this.jwtService.sign(payload);

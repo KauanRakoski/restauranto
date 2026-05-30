@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
       
       if (data.accessToken) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.accessToken);
         navigate('/dashboard'); 
       } else {
         throw new Error('Nenhum token recebido');

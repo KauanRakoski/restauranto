@@ -26,6 +26,14 @@ erDiagram
         string name
         string document
     }
+    User {
+        int id PK
+        string name
+        string email
+        string password
+        string role
+        uuid restaurantId FK
+    }
     Category {
         int id PK
         string name
@@ -51,6 +59,7 @@ erDiagram
         uuid itemId FK
     }
 
+    Restaurant ||--o{ User : "emprega"
     Restaurant ||--o{ Category : "possui"
     Restaurant ||--o{ Order : "recebe"
     Category ||--o{ Item : "agrupa"

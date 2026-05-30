@@ -19,6 +19,25 @@ export const api = {
 
     return response;
   },
+
+  postFormData: async (endpoint: string, formData: FormData) => {
+    const token = localStorage.getItem('token');
+    const headers: HeadersInit = {};
+    
+    // When sending FormData, DO NOT set Content-Type header.
+    // fetch will automatically set it to multipart/form-data with the correct boundary.
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+
+    return response;
+  },
   
   get: async (endpoint: string) => {
     const token = localStorage.getItem('token');
@@ -36,5 +55,51 @@ export const api = {
     });
 
     return response;
+  },
+
+  fetchMenuItems: async () => {
+    const response = await api.get("/items");
+    
+    if (!response.ok) {
+      throw new Error('Erro ao buscar o cardapio');
+    }
+    
+    const res = await response.json();
+
+    const groupedData: Record<string, any[]> = {};
+
+    for (const item of res.data) {
+      const categoryName = item.category.name;
+
+      if (!groupedData[categoryName]) {
+        groupedData[categoryName] = [];
+      }
+      
+      groupedData[categoryName].push(item);
+    }
+
+    return Object.entries(groupedData).map(([categoryName, items]) => ({
+      categoryName,
+      items
+    }));
+  },
+
+  fetchCategories: async () => {
+    const response = await api.get("/categories");
+    if (!response.ok) {
+      throw new Error('Erro ao buscar as categorias');
+    }
+    const res = await response.json();
+    return res.data || res;
+  },
+
+  createCategory: async (name: string) => {
+    const response = await api.post("/categories", { name });
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      throw new Error(err?.message || 'Erro ao criar categoria');
+    }
+    const res = await response.json();
+    return res.data || res;
   }
 };
