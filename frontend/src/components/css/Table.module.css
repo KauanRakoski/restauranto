@@ -1,0 +1,157 @@
+.tableContainer {
+    width: 100%;
+    background-color: rgba(28, 28, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.gridStandard {
+    display: grid;
+    grid-template-columns: 0.8fr 2fr 1fr 1fr 1.5fr;
+    gap: 16px;
+}
+
+.tableHeader {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 16px 24px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tableHeader > div {
+    justify-self: center;
+    text-align: center;
+}
+
+.tableHeader > div:first-child {
+    justify-self: center;
+}
+
+.tableBody {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableRow {
+    padding: 16px 24px;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.tableRow > div {
+    min-width: 0;
+}
+
+.tableRow:last-child {
+    border-bottom: none;
+}
+
+.tableRow:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.colId {
+    font-weight: 600;
+    color: #cbd5e1;
+    text-align: center;
+}
+
+.colCustomer {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.colItems, .colTotal {
+    color: #94a3b8;
+    text-align: center;
+    justify-self: center;
+}
+
+.colStatus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statusBadge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    display: inline-block;
+}
+
+.statusPreparando {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.statusPronto {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.statusEntregando {
+    background-color: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.emptyRow {
+    padding: 3rem;
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .tableHeader {
+        display: none;
+    }
+
+    .gridStandard {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .tableRow {
+        padding: 16px;
+    }
+
+    .colCustomer {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .colId::before { content: 'Pedido: '; color: #64748b; font-weight: 500; font-size: 13px; }
+    .colItems::before { content: 'Itens: '; color: #64748b; font-weight: 500; font-size: 13px; }
+    .colTotal::before { content: 'Valor: '; color: #64748b; font-weight: 500; font-size: 13px; }
+
+    .colId, .colItems, .colTotal {
+        text-align: left;
+        justify-self: start;
+        align-self: flex-start;
+        font-size: 14px;
+        color: #fff;
+    }
+    
+    .colStatus {
+        justify-content: flex-start;
+        margin-top: 8px;
+    }
+}

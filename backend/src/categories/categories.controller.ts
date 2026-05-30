@@ -25,6 +25,6 @@ export class CategoriesController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   async createCategory(@Body() body: CreateCategoryDto) {
-    return this .categoriesService.createCategory(body);
+    return this.categoriesService.createCategory(body);
   }
 }
