@@ -9,10 +9,11 @@ import { CreateCategoryModal } from './CreateCategoryModal';
 interface CreateItemModalProps {
   isOpen: boolean;
   onClose: () => void;
+  stockItems: any[];
   onItemCreated: () => void;
 }
 
-export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClose, onItemCreated }) => {
+export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClose, stockItems, onItemCreated }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -23,6 +24,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [ingredients, setIngredients] = useState<{ stockItemId: string, amount: string }[]>([]);
 
   const { data: categories, isLoading: isLoadingCategories, refetch: refetchCategories } = useQuery({
     queryKey: ['categories'],
@@ -42,6 +44,11 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
     isSpecial: true
   });
 
+  const stockOptions: SelectOption[] = stockItems ? stockItems.map((item: any) => ({
+    value: item.id.toString(),
+    label: `${item.name} (${item.measureUnit})`
+  })) : [];
+
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -53,6 +60,16 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
       reader.readAsDataURL(file);
     }
   };
+
+  const estimatedCost = ingredients.reduce((sum, ing) => {
+    const stockItem = stockItems?.find(s => s.id.toString() === ing.stockItemId);
+    if (stockItem && ing.amount && stockItem.stockAmount) {
+      return sum + ((Number(stockItem.cost) / Number(stockItem.stockAmount)) * Number(ing.amount));
+    }
+    return sum;
+  }, 0);
+
+  const estimatedProfit = price ? Number(price) - estimatedCost : 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,6 +91,10 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
       if (photo) {
         formData.append('photo', photo);
       }
+      
+      if (ingredients.length > 0) {
+        formData.append('ingredients', JSON.stringify(ingredients.filter(ing => ing.stockItemId && ing.amount)));
+      }
 
       const response = await api.postFormData('/items', formData);
       
@@ -89,6 +110,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
       setCategoryId('');
       setPhoto(null);
       setPhotoPreview(null);
+      setIngredients([]);
       
       onItemCreated();
       onClose();
@@ -181,6 +203,78 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
                   disabled={isLoadingCategories}
                 />
               </div>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Ingredientes (Estoque)</label>
+              {ingredients.map((ing, index) => (
+                <div key={index} className={styles.ingredientRow}>
+                  <div style={{ flex: 2 }}>
+                    <CustomSelect 
+                      value={ing.stockItemId}
+                      onChange={(val) => {
+                        const newIngs = [...ingredients];
+                        newIngs[index].stockItemId = val;
+                        setIngredients(newIngs);
+                      }}
+                      options={stockOptions}
+                      placeholder="Selecione o item..."
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <input 
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      className={styles.input}
+                      placeholder="Qtd"
+                      value={ing.amount}
+                      onChange={(e) => {
+                        const newIngs = [...ingredients];
+                        newIngs[index].amount = e.target.value;
+                        setIngredients(newIngs);
+                      }}
+                    />
+                  </div>
+                  <button 
+                    type="button" 
+                    className={styles.removeBtn}
+                    onClick={() => {
+                      const newIngs = [...ingredients];
+                      newIngs.splice(index, 1);
+                      setIngredients(newIngs);
+                    }}
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+              ))}
+              <button 
+                type="button" 
+                className={styles.addBtn}
+                onClick={() => setIngredients([...ingredients, { stockItemId: '', amount: '' }])}
+              >
+                + Adicionar Ingrediente
+              </button>
+
+              {ingredients.some(ing => ing.stockItemId && ing.amount) ? (
+                <div className={styles.financialSummary}>
+                  <div className={styles.financialItem}>
+                    <span className={styles.financialLabel}>Custo Estimado</span>
+                    <span className={styles.financialValue}>R$ {estimatedCost.toFixed(2)}</span>
+                  </div>
+                  <div className={styles.financialItem}>
+                    <span className={styles.financialLabel}>Lucro Estimado</span>
+                    <span className={`${styles.financialValue} ${estimatedProfit >= 0 ? styles.profitPositive : styles.profitNegative}`}>
+                      R$ {estimatedProfit.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles.financialSummary} style={{ justifyContent: 'center' }}>
+                  <span className={styles.financialLabel}>Adicione ingredientes para ver o custo e lucro estimados</span>
+                </div>
+              )}
             </div>
 
             <div className={styles.formGroup}>

@@ -94,7 +94,19 @@ const InventoryPage: React.FC = () => {
                       </div>
                       <div className={styles.itemInfo}>
                         <span className={styles.itemName}>{item.name}</span>
-                        <span className={styles.itemPrice}>R$ {item.price} </span>
+                        <span className={styles.itemPrice}>Venda: R$ {item.price}</span>
+                        <div className={styles.itemFinancials}>
+                          {item.currentCost !== null && item.currentCost !== undefined ? (
+                            <>
+                              <span className={styles.itemCost}>Custo: R$ {Number(item.currentCost).toFixed(2)}</span>
+                              <span className={`${styles.itemProfit} ${Number(item.currentProfit) >= 0 ? styles.profitPositive : styles.profitNegative}`}>
+                                Lucro: R$ {Number(item.currentProfit).toFixed(2)}
+                              </span>
+                            </>
+                          ) : (
+                            <span className={styles.itemCost}>Custo e Lucro: Não calculados (Sem ingredientes)</span>
+                          )}
+                        </div>
                       </div>
                       <div className={styles.itemActions}>
                         <Edit2 className={styles.actionIcon} />
@@ -148,6 +160,7 @@ const InventoryPage: React.FC = () => {
         <CreateItemModal 
           isOpen={isModalOpen} 
           onClose={() => setIsModalOpen(false)} 
+          stockItems={stockData || []}
           onItemCreated={() => {
             refetch();
           }} 

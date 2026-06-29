@@ -1,8 +1,10 @@
-import { Injectable, NotFoundException, ForbiddenException } from "@nestjs/common";
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Item } from '../models/item.entity';
 import { Category } from '../models/category.entity';
+import { ItemIngredient } from '../models/item-ingredients.entity';
+import { StockItem } from '../models/stock-item.entity';
 import { CreateItemDto } from "../dtos/item.dto";
 
 @Injectable()
@@ -11,11 +13,15 @@ export class ItemsService {
         @InjectRepository(Item)
         private itemRepository: Repository<Item>,
         @InjectRepository(Category)
-        private categoryRepository: Repository<Category>
+        private categoryRepository: Repository<Category>,
+        @InjectRepository(ItemIngredient)
+        private itemIngredientRepository: Repository<ItemIngredient>,
+        @InjectRepository(StockItem)
+        private stockItemRepository: Repository<StockItem>
     ) {}
 
     async createItem(createItemDto: CreateItemDto, restaurantId: string, photoUrl?: string): Promise <Item>{
-        const { categoryId, ...itemData } = createItemDto;
+        const { categoryId, ingredients, ...itemData } = createItemDto;
 
         const category = await this.categoryRepository.findOne({
             where: { id: categoryId },
@@ -30,13 +36,53 @@ export class ItemsService {
             throw new ForbiddenException('Você não pode adicionar um item a uma categoria de outro restaurante.');
         }
 
+        let currentCost: number | null = null;
+        let currentProfit: number | null = null;
+        let parsedIngredients: any[] = [];
+
+        if (ingredients) {
+            try {
+                parsedIngredients = JSON.parse(ingredients);
+                if (Array.isArray(parsedIngredients) && parsedIngredients.length > 0) {
+                    currentCost = 0;
+                    const stockIds = parsedIngredients.map(ing => ing.stockItemId);
+                    const stockItems = await this.stockItemRepository.findBy({ id: In(stockIds) });
+                    
+                    for (const ing of parsedIngredients) {
+                        const stockItem = stockItems.find(s => s.id === Number(ing.stockItemId));
+                        if (stockItem && stockItem.stockAmount) {
+                            currentCost += ((Number(stockItem.cost) / Number(stockItem.stockAmount)) * Number(ing.amount));
+                        }
+                    }
+                    currentProfit = Number(itemData.price) - currentCost;
+                }
+            } catch (err) {
+                throw new BadRequestException('Formato de ingredientes inválido.');
+            }
+        }
+
         const newItem = this.itemRepository.create({
           ...itemData,
           photoUrl,
           category: { id: categoryId },
+          currentCost,
+          currentProfit
         });
 
-        return this.itemRepository.save(newItem);
+        const savedItem = await this.itemRepository.save(newItem);
+
+        if (parsedIngredients.length > 0) {
+            const ingredientEntities = parsedIngredients.map((ing: any) => {
+                return this.itemIngredientRepository.create({
+                    item: { id: savedItem.id },
+                    stockItem: { id: ing.stockItemId },
+                    amount: ing.amount
+                });
+            });
+            await this.itemIngredientRepository.save(ingredientEntities);
+        }
+
+        return savedItem;
     }
 
     async getItems(){

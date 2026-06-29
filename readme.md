@@ -1,8 +1,8 @@
 ### Restauranto
 
-![logo](./frontend/public/logo.svg)
+![logo](./frontend/src/assets/logo.svg)
 
-An app for simplifing managment of small food businesses
+An app for simplifing management of small food businesses
 
 #### ⚙️ Running the App
 You can run the app in development by using (on the root folder):
