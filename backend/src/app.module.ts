@@ -9,6 +9,7 @@ import { ItemsModule } from './items/items.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { RestaurantsModule } from './restaurants/restaurants.module';
+import { StockModule } from './stock/stock.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
     AuthModule,
     ItemsModule,
     CategoriesModule,
-    RestaurantsModule
+    RestaurantsModule,
+    StockModule
   ],
   controllers: [AppController, ],
   providers: [AppService],

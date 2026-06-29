@@ -139,5 +139,24 @@ export const api = {
     }
     const res = await response.json();
     return res.data || res;
+  },
+
+  fetchStockItems: async () => {
+    const response = await api.get("/stock");
+    if (!response.ok) {
+      throw new Error('Erro ao buscar o estoque');
+    }
+    const res = await response.json();
+    return res.data || res;
+  },
+
+  createStockItem: async (data: any) => {
+    const response = await api.post("/stock", data);
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      throw new Error(err?.message || 'Erro ao criar item de estoque');
+    }
+    const res = await response.json();
+    return res.data || res;
   }
 };

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './css/InventoryPage.module.css';
 import modalStyles from '../components/css/CreateItemModal.module.css';
 import { CreateItemModal } from '../components/CreateItemModal';
+import { CreateStockItemModal } from '../components/CreateStockItemModal';
 import { Sidebar } from '../components/Sidebar';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
@@ -13,10 +14,16 @@ const InventoryPage: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<'menu' | 'estoque'>('menu');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isStockModalOpen, setIsStockModalOpen] = useState(false);
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['menuItems'],
     queryFn: api.fetchMenuItems
+  });
+
+  const { data: stockData, isLoading: isLoadingStock, error: errorStock, refetch: refetchStock } = useQuery({
+    queryKey: ['stockItems'],
+    queryFn: api.fetchStockItems
   });
 
   useEffect(() => {
@@ -24,6 +31,12 @@ const InventoryPage: React.FC = () => {
       console.error('[InventoryPage] Falha na comunicação com a API:', error);
     }
   }, [error]);
+
+  useEffect(() => {
+    if (errorStock) {
+      console.error('[InventoryPage] Falha na comunicação com a API (Estoque):', errorStock);
+    }
+  }, [errorStock]);
 
   return (
     <div className={styles.dashboardContainer}>
@@ -100,15 +113,34 @@ const InventoryPage: React.FC = () => {
               
             </div>
           ) : (
-            <div className={styles.emptyState}>
-              <p>O controle de estoque está vazio no momento.</p>
+            <div>
+              {!isLoadingStock && !errorStock && stockData && stockData.length > 0 ? (
+                stockData.map((item: any) => (
+                  <div className={styles.itemCard} key={item.id}>
+                    <div className={styles.itemInfo}>
+                      <span className={styles.itemName}>{item.name}</span>
+                      <span className={styles.itemPrice}>R$ {item.cost} / {item.measureUnit}</span>
+                      <span className={styles.itemStock}>
+                        Em estoque: {item.stockAmount} {item.measureUnit}
+                      </span>
+                    </div>
+                    <div className={styles.itemActions}>
+                      <Edit2 className={styles.actionIcon} />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.emptyState}>
+                  <p>O controle de estoque está vazio no momento.</p>
+                </div>
+              )}
             </div>
           )}
         </div>
 
         <button 
           className={modalStyles.inventoryFab}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => activeTab === 'menu' ? setIsModalOpen(true) : setIsStockModalOpen(true)}
         >
           <Plus className={modalStyles.fabIcon} />
         </button>
@@ -119,6 +151,14 @@ const InventoryPage: React.FC = () => {
           onItemCreated={() => {
             refetch();
           }} 
+        />
+
+        <CreateStockItemModal
+          isOpen={isStockModalOpen}
+          onClose={() => setIsStockModalOpen(false)}
+          onItemCreated={() => {
+            refetchStock();
+          }}
         />
       </main>
     </div>
