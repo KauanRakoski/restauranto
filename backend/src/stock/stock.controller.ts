@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Req, ForbiddenException, Param, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Patch, Body, Req, ForbiddenException, Param, UseGuards } from "@nestjs/common";
 import { StockService } from "./stock.service";
-import { CreateStockItemDto } from "src/dtos/stock-item.dto";
+import { CreateStockItemDto, UpdateStockItemDto } from "src/dtos/stock-item.dto";
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('stock')
@@ -43,5 +43,18 @@ export class StockController {
         }
 
         return this.stockService.findOne(+id, req.user.restaurantId);
+    }
+
+    @Patch(':id')
+    async updateStockItem(
+        @Param('id') id: string,
+        @Body() body: UpdateStockItemDto,
+        @Req() req: any,
+    ){
+        if (!req.user.restaurantId) {
+            throw new ForbiddenException('Usuário não possui restaurante vinculado.');
+        }
+
+        return this.stockService.update(+id, body, req.user.restaurantId);
     }
 }

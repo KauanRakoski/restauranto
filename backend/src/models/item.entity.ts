@@ -16,6 +16,12 @@ export class Item {
   @Column('decimal', { precision: 10, scale: 2 })
   price!: number;
 
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  currentCost!: number | null;
+
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  currentProfit!: number | null;
+
   @Column({ nullable: true })
   photoUrl!: string;
 

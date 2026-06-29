@@ -28,4 +28,9 @@ export class CreateItemDto {
   @ApiPropertyOptional({ type: 'string' })
   @IsOptional()
   photo?: any;
+
+  @ApiPropertyOptional({ example: '[{"stockItemId": 1, "amount": 2.5}]' })
+  @IsString()
+  @IsOptional()
+  ingredients?: string;
 }

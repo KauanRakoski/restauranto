@@ -167,6 +167,29 @@
   margin-top: 4px;
 }
 
+.itemFinancials {
+  display: flex;
+  gap: 12px;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.itemCost {
+  color: #8e8e93;
+}
+
+.itemProfit {
+  font-weight: 500;
+}
+
+.profitPositive {
+  color: #34c759;
+}
+
+.profitNegative {
+  color: #ff3b30;
+}
+
 .itemActions {
   display: flex;
   align-items: center;
