@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
+import { ItemIngredient } from './item-ingredients.entity';
 
 @Entity()
 export class Item {
@@ -20,4 +21,11 @@ export class Item {
 
   @ManyToOne(() => Category, (category) => category.items, { onDelete: 'CASCADE' })
   category!: Category;
+
+  @OneToMany(
+    () => ItemIngredient,
+    ingredient => ingredient.item,
+    { cascade: true }
+  )
+  ingredients!: ItemIngredient[];
 }
