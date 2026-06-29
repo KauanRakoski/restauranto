@@ -1,0 +1,145 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+}
+
+.topHeader {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: #1c1c1e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topHeader h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerIcon {
+  color: #8e8e93;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.headerIcon:hover {
+  color: #fff;
+}
+
+.content {
+  flex: 1;
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.settingsCard {
+  background-color: #1c1c1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.settingsCard h2 {
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #8e8e93;
+  font-weight: 500;
+}
+
+.input {
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.submitBtn {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+  width: auto;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: #4f46e5;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loadingState, .errorState {
+  padding: 40px;
+  text-align: center;
+  color: #8e8e93;
+}
+
+.errorState {
+  color: #ef4444;
+}
+
+.successMessage {
+  margin-bottom: 20px;
+  padding: 12px;
+  background-color: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 8px;
+  color: #4ade80;
+  font-size: 0.9rem;
+}

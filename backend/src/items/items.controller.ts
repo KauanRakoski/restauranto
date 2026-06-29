@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards, Req, ForbiddenException, UseInterceptors, UploadedFile } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards, Req, ForbiddenException, UseInterceptors, UploadedFile, Param, Res, NotFoundException, StreamableFile } from "@nestjs/common";
 import { CreateItemDto } from "src/dtos/item.dto";
 import { ItemsService } from "./items.service";
 import { FileInterceptor } from '@nestjs/platform-express';
-
+import { multerOptions } from '../shared/multer.config'
+import type { Response } from "express";
 import { ApiOperation, ApiConsumes } from "@nestjs/swagger";
+import { join } from "path";
+import * as fs from 'fs';
 
 import { AuthGuard } from '@nestjs/passport';
 
@@ -14,7 +17,7 @@ export class ItemsController {
     @ApiOperation({ summary: 'Creates a new Item for the restaurant' })
     @ApiConsumes('multipart/form-data')
     @UseGuards(AuthGuard('jwt'))
-    @UseInterceptors(FileInterceptor('photo'))
+    @UseInterceptors(FileInterceptor('photo', multerOptions))
     @Post()
     async createItem (
         @Body() body: CreateItemDto,
@@ -24,7 +27,13 @@ export class ItemsController {
         if (!req.user.restaurantId) {
             throw new ForbiddenException('Usuário não possui restaurante vinculado.');
         }
-        return this.itemsService.createItem(body, req.user.restaurantId, photo?.path);
+        
+        let filename = photo?.filename;
+        if (!filename && photo?.path) {
+            filename = photo.path.replace(/^.*[\\\/]/, '');
+        }
+
+        return this.itemsService.createItem(body, req.user.restaurantId, filename);
     }
 
     @ApiOperation({summary: 'Gets all Restaurant items'})
@@ -32,5 +41,16 @@ export class ItemsController {
     @UseGuards(AuthGuard('jwt'))
     async getItems(){
         return this.itemsService.getItems();
+    }
+
+    @Get(':filename')
+    getPhotos(@Param('filename') filename: string, @Res() res: Response){
+        const filePath = join(process.cwd(), 'uploads', filename);
+        
+        if (!fs.existsSync(filePath)) {
+            throw new NotFoundException('Image not found');
+        }
+        
+        res.sendFile(filePath);
     }
 }

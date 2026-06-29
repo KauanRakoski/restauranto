@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { ShoppingBag, DollarSign, TrendingUp } from 'lucide-react';
+import { ShoppingBag, DollarSign, TrendingUp, Bell, Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import styles from './css/DashboardPage.module.css';
 import { Sidebar } from '../components/Sidebar';
 import { Card } from '../components/Card';
@@ -25,6 +26,12 @@ const DashboardPage: React.FC = () => {
       <main className={styles.mainContent}>
         <header className={styles.topHeader}>
           <h1>Visão Geral</h1>
+          <div className={styles.headerIcons}>
+            <Bell className={styles.headerIcon} />
+            <Link to="/settings" style={{ color: 'inherit', display: 'flex' }}>
+              <Settings className={styles.headerIcon} />
+            </Link>
+          </div>
         </header>
         <div className={styles.content}>
           <div className={styles.cardsGrid}>

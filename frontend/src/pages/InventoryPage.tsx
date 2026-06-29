@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Bell, Settings, Edit2, ChevronDown, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import styles from './css/InventoryPage.module.css';
 import modalStyles from '../components/css/CreateItemModal.module.css';
 import { CreateItemModal } from '../components/CreateItemModal';
@@ -33,7 +34,9 @@ const InventoryPage: React.FC = () => {
           <h1>Inventário</h1>
           <div className={styles.headerIcons}>
             <Bell className={styles.headerIcon} />
-            <Settings className={styles.headerIcon} />
+            <Link to="/settings" style={{ color: 'inherit', display: 'flex' }}>
+              <Settings className={styles.headerIcon} />
+            </Link>
           </div>
         </header>
         
@@ -56,7 +59,7 @@ const InventoryPage: React.FC = () => {
           {activeTab === 'menu' ? (
             <div>
               {!isLoading && !error && data?.map((category: any) => (
-                  <div className={styles.categoryGroup}>
+                  <div className={styles.categoryGroup} key={category.categoryName}>
                   <div className={styles.categoryHeader}>
                     <h3>{category.categoryName}</h3>
                     <ChevronDown className={styles.chevronIcon} />
@@ -64,7 +67,18 @@ const InventoryPage: React.FC = () => {
 
                   {category.items.map((item: any) => (
                     <div className={styles.itemCard} key={item.id}>
-                      <div className={`${styles.itemImagePlaceholder} ${styles.cocaColaImg}`}></div>
+                      <div>
+                        {item.photoUrl ? (
+                          <img 
+                            src={`http://localhost:3000/items/${item.photoUrl.split(/[\\/]/).pop()}`} 
+                            alt={item.name} 
+                            className={styles.itemImagePlaceholder}
+                            style={{ objectFit: 'cover' }}
+                          />
+                        ) : (
+                          <div className={styles.itemImagePlaceholder} />
+                        )}
+                      </div>
                       <div className={styles.itemInfo}>
                         <span className={styles.itemName}>{item.name}</span>
                         <span className={styles.itemPrice}>R$ {item.price} </span>
