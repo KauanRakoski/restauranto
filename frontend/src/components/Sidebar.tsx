@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Home, Package, Plus, Boxes, CircleDollarSign, LogOut } from 'lucide-react';
+import { Home, Package, Plus, Boxes, CircleDollarSign, LogOut, ClipboardList } from 'lucide-react';
 import styles from './css/Sidebar.module.css';
 import logoSvg from '../assets/logo.svg';
 
@@ -16,6 +16,8 @@ export const Sidebar: React.FC = () => {
   const isActive = (path: string) => {
     if (path === '/dashboard' && location.pathname === '/dashboard') return styles.active;
     if (path === '/inventory' && location.pathname === '/inventory') return styles.active;
+    if (path === '/neworder' && location.pathname === '/neworder') return styles.active;
+    if (path === '/orders' && location.pathname === '/orders') return styles.active;
     return '';
   };
 
@@ -35,10 +37,14 @@ export const Sidebar: React.FC = () => {
             <Home className={styles.navIcon} />
             <span className={styles.navLabel}>Geral</span>
           </Link>
-          <a href="#" className={styles.navItem}>
+          <Link to="/neworder" className={`${styles.navItem} ${isActive('/neworder')}`}>
             <Package className={styles.navIcon} />
+            <span className={styles.navLabel}>Novo Pedido</span>
+          </Link>
+          <Link to="/orders" className={`${styles.navItem} ${isActive('/orders')}`}>
+            <ClipboardList className={styles.navIcon} />
             <span className={styles.navLabel}>Pedidos</span>
-          </a>
+          </Link>
           
           <Link to="/items/new" className={styles.fabBtn}>
             <div className={styles.fabIconWrapper}>

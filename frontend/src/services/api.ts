@@ -158,5 +158,25 @@ export const api = {
     }
     const res = await response.json();
     return res.data || res;
+  },
+
+  createOrder: async (data: any) => {
+    const response = await api.post("/orders", data);
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      throw new Error(err?.message || 'Erro ao criar pedido');
+    }
+    const res = await response.json();
+    return res;
+  },
+
+  fetchOrders: async () => {
+    const response = await api.get("/orders");
+    if (!response.ok) {
+      throw new Error('Erro ao buscar os pedidos');
+    }
+    const res = await response.json();
+    return res;
   }
+
 };

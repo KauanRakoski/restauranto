@@ -1,0 +1,288 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  height: 100vh;
+}
+
+.topHeader {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(28, 28, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topHeader h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.headerIcons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.headerIcon {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.posContainer {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem;
+  flex: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.menuSection {
+  flex: 2;
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.categoryTitle {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+  margin-top: 1.5rem;
+  color: #e5e5ea;
+  font-size: 1.2rem;
+}
+
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 1rem;
+}
+
+.itemCard {
+  background: rgba(28, 28, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s;
+}
+
+.itemCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.itemCard h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.itemCard p {
+  margin: 0;
+  color: #8e8e93;
+  font-size: 1rem;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cartSection {
+  flex: 1;
+  background: rgba(28, 28, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 4rem);
+}
+
+.cartTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.emptyCart {
+  color: #8e8e93;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.cartContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.cartList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cartItemDetails strong {
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.cartItemDetails small {
+  color: #8e8e93;
+  font-size: 0.9rem;
+}
+
+.cartItemControls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.3rem;
+  border-radius: 8px;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  border-radius: 4px;
+}
+
+.iconButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cartTotal {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartTotal h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 1rem;
+  background-color: #34c759;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #30d158;
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    flex-direction: column;
+    background-color: #000;
+  }
+
+  .mainContent {
+    background-color: transparent;
+    color: #fff;
+    margin-bottom: 110px;
+    height: auto;
+  }
+
+  .topHeader {
+    background: rgba(28, 28, 30, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .posContainer {
+    flex-direction: column;
+    padding: 1rem;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .menuSection {
+    padding-right: 0;
+  }
+  
+  .cartSection {
+    max-height: none;
+  }
+}

@@ -6,6 +6,8 @@ import DashboardPage from './pages/DashboardPage';
 import InventoryPage from './pages/InventoryPage';
 import SettingsPage from './pages/SettingsPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import NewOrderPage from './pages/NewOrderPage';
+import OrdersPage from './pages/OrdersPage';
 import './App.css';
 
 function App() {
@@ -36,6 +38,22 @@ function App() {
           element={
             <ProtectedRoute>
               <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/neworder"
+          element={
+            <ProtectedRoute>
+              <NewOrderPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <OrdersPage />
             </ProtectedRoute>
           }
         />
