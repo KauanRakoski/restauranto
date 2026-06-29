@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Req, ForbiddenException, Param } from "@nestjs/common";
+import { Controller, Get, Post, Body, Req, ForbiddenException, Param, UseGuards } from "@nestjs/common";
 import { StockService } from "./stock.service";
 import { CreateStockItemDto } from "src/dtos/stock-item.dto";
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('stock')
+@UseGuards(AuthGuard('jwt'))
 export class StockController {
     constructor(
         private readonly stockService: StockService

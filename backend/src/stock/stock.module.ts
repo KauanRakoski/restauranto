@@ -9,4 +9,4 @@ import { StockItem } from "src/models/stock-item.entity";
     controllers: [StockController],
     providers: [StockService]
 })
-export class ItemsModule {}
+export class StockModule {}

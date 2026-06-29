@@ -109,7 +109,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+        <form onSubmit={handleSubmit} className={styles.formContainer}>
           <div className={styles.modalBody}>
             {error && (
               <div className={styles.generalError}>
@@ -150,7 +150,7 @@ export const CreateItemModal: React.FC<CreateItemModalProps> = ({ isOpen, onClos
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className={styles.gridTwoColumns}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Preço (R$)</label>
                 <input 
