@@ -24,6 +24,9 @@
   background: rgba(28, 28, 30, 0.4);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .topHeader h1 {
@@ -31,6 +34,24 @@
   font-weight: 600;
   margin: 0;
   letter-spacing: -0.5px;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.headerIcon {
+  color: #8e8e93;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.headerIcon:hover {
+  color: #fff;
 }
 
 .content {

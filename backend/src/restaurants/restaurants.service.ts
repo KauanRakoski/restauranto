@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Restaurant } from '../models/restaurant.entity';
 import { User } from '../models/user.entity';
 import { CreateRestaurantDto } from '../dtos/restaurant.dto';
+import { UpdateRestaurantDto } from '../dtos/update-restaurant.dto';
 
 @Injectable()
 export class RestaurantsService {
@@ -27,5 +28,29 @@ export class RestaurantsService {
     await this.userRepository.save(user);
 
     return savedRestaurant;
+  }
+
+  async getMyRestaurant(restaurantId: string) {
+    if (!restaurantId) {
+      throw new NotFoundException('Usuário não possui restaurante vinculado.');
+    }
+    const restaurant = await this.restaurantRepository.findOne({ where: { id: restaurantId } });
+    if (!restaurant) {
+      throw new NotFoundException('Restaurante não encontrado.');
+    }
+    return restaurant;
+  }
+
+  async updateMyRestaurant(restaurantId: string, updateRestaurantDto: UpdateRestaurantDto) {
+    if (!restaurantId) {
+      throw new NotFoundException('Usuário não possui restaurante vinculado.');
+    }
+    const restaurant = await this.restaurantRepository.findOne({ where: { id: restaurantId } });
+    if (!restaurant) {
+      throw new NotFoundException('Restaurante não encontrado.');
+    }
+
+    Object.assign(restaurant, updateRestaurantDto);
+    return this.restaurantRepository.save(restaurant);
   }
 }

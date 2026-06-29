@@ -39,6 +39,25 @@ export const api = {
     return response;
   },
   
+  patch: async (endpoint: string, body: any) => {
+    const token = localStorage.getItem('token');
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(body),
+    });
+
+    return response;
+  },
+
   get: async (endpoint: string) => {
     const token = localStorage.getItem('token');
     const headers: HeadersInit = {
@@ -98,6 +117,25 @@ export const api = {
     if (!response.ok) {
       const err = await response.json().catch(() => null);
       throw new Error(err?.message || 'Erro ao criar categoria');
+    }
+    const res = await response.json();
+    return res.data || res;
+  },
+
+  fetchMyRestaurant: async () => {
+    const response = await api.get("/restaurants");
+    if (!response.ok) {
+      throw new Error('Erro ao buscar o restaurante');
+    }
+    const res = await response.json();
+    return res.data || res;
+  },
+
+  updateMyRestaurant: async (data: any) => {
+    const response = await api.patch("/restaurants", data);
+    if (!response.ok) {
+      const err = await response.json().catch(() => null);
+      throw new Error(err?.message || 'Erro ao atualizar o restaurante');
     }
     const res = await response.json();
     return res.data || res;

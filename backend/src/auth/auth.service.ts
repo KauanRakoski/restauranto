@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException, UnauthorizedException
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/models/user.entity';
+import { Restaurant } from 'src/models/restaurant.entity';
 import { AuthCredentialsDto, RegisterUserDto } from 'src/dtos/auth.dto';
 import { genSalt, hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -11,6 +12,8 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Restaurant)
+    private readonly restaurantRepository: Repository<Restaurant>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -32,7 +35,19 @@ export class AuthService {
         password: hashedPassword
     })
 
-    await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save(user);
+
+    const defaultRestaurant = this.restaurantRepository.create({
+        name: `Restaurante de ${name}`,
+        document: '',
+        address: '',
+        phone: ''
+    });
+
+    const savedRestaurant = await this.restaurantRepository.save(defaultRestaurant);
+    
+    savedUser.restaurant = savedRestaurant;
+    await this.userRepository.save(savedUser);
   }
 
   async login (credentials: AuthCredentialsDto){
